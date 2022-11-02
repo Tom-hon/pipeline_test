@@ -22,11 +22,11 @@ jobs:
 
     - name: Terraform Init
       working-directory: ${{env.working-directory}}
-      uses: hashicorp/terraform-github-actions/init@v0.4.0
+      run: terraform init
 
     - name: Terraform Validate
       working-directory: ${{env.working-directory}}
-      uses: hashicorp/terraform-github-actions/validate@v0.3.7
+      run: terraform validate
 
     - name: Terraform Plan
       working-directory: ${{env.working-directory}}
