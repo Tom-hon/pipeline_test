@@ -5,14 +5,12 @@ on:
   push:
     branches: [ "main" ]
 
-defaults:
-  run:
-    working-directory: ./terraform
-
 jobs:
   plan:
     name: Plan
     runs-on: ubuntu-latest
+    env:
+        working-directory: ./terraform
     environment: staging
     steps:
     
