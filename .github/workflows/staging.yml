@@ -2,8 +2,7 @@ name: Terraform staging
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
   plan:
@@ -12,8 +11,11 @@ jobs:
     environment: staging
     steps:
 
-    - name: Checkout Repo
-      uses: actions/checkout@master
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Checkout
+      uses: actions/checkout@v3
 
     - name: Terraform Init
       uses: hashicorp/terraform-github-actions/init@v0.4.0
@@ -27,7 +29,8 @@ jobs:
     environment: staging
     needs: plan
     steps:
-
+    
     - name: Terraform Plan
-      uses: hashicorp/terraform-github-actions/plan@v0.4.0
+      run: terraform plan -input=false
+
 
