@@ -10,7 +10,7 @@ jobs:
     name: Plan
     runs-on: ubuntu-latest
     env:
-        working-directory: ./terraform
+      working-directory: ./terraform
     environment: staging
     steps:
     
