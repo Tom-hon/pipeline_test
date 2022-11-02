@@ -1,6 +1,7 @@
 name: Terraform staging
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "main" ]
 
@@ -21,14 +22,26 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
 
+    # - name: Terraform Init
+    #   uses: hashicorp/terraform-github-actions/init@v0.4.0
+
+    # - name: Terraform Validate
+    #   uses: hashicorp/terraform-github-actions/validate@v0.3.7
+
+    # - name: Terraform Plan
+    #   run: terraform plan -input=false
+
+    - name: Terraform Format
+      id: fmt
+      run: terraform -chdir=terraform fmt
+      
     - name: Terraform Init
-      uses: hashicorp/terraform-github-actions/init@v0.4.0
-
+      id: init
+      run: terraform -chdir=terraform init
+    
     - name: Terraform Validate
-      uses: hashicorp/terraform-github-actions/validate@v0.3.7
-
-    - name: Terraform Plan
-      run: terraform plan -input=false
+      id: validate
+      run: terraform -chdir=terraform validate -no-color
 
   # deploy:
   #   name: Build
