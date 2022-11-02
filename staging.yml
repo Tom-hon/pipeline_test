@@ -21,9 +21,6 @@ jobs:
     - name: Terraform Validate
       uses: hashicorp/terraform-github-actions/validate@v0.3.7
 
-    - name: Terraform Plan
-      uses: hashicorp/terraform-github-actions/plan@v0.4.0
-
   deploy:
     name: Build
     runs-on: ubuntu-latest
@@ -31,5 +28,6 @@ jobs:
     needs: plan
     steps:
 
-    - name: Checkout Repo
-      uses: actions/checkout@master
+    - name: Terraform Plan
+      uses: hashicorp/terraform-github-actions/plan@v0.4.0
+
