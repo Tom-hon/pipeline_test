@@ -23,14 +23,17 @@ jobs:
     - name: Terraform Validate
       uses: hashicorp/terraform-github-actions/validate@v0.3.7
 
-  deploy:
-    name: Build
-    runs-on: ubuntu-latest
-    environment: staging
-    needs: plan
-    steps:
-    
     - name: Terraform Plan
       run: terraform plan -input=false
 
+  # deploy:
+  #   name: Build
+  #   runs-on: ubuntu-latest
+  #   environment: staging
+  #   needs: plan
+  #   steps:
+    
+    # - name: Terraform Apply
+    #   if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
+    #   run: terraform apply -auto-approve -input=false
 
