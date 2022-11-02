@@ -10,7 +10,7 @@ jobs:
     name: Plan
     runs-on: ubuntu-latest
     env:
-        working-directory: ./terraform
+      working-directory: ./terraform
     environment: staging
     steps:
     
@@ -21,16 +21,17 @@ jobs:
       uses: hashicorp/setup-terraform@v1
 
     - name: Terraform Init
-      uses: hashicorp/terraform-github-actions/init@v0.4.0
       working-directory: ${{env.working-directory}}
+      uses: hashicorp/terraform-github-actions/init@v0.4.0
 
     - name: Terraform Validate
-      uses: hashicorp/terraform-github-actions/validate@v0.3.7
       working-directory: ${{env.working-directory}}
+      uses: hashicorp/terraform-github-actions/validate@v0.3.7
 
     - name: Terraform Plan
-      run: terraform plan -input=false
       working-directory: ${{env.working-directory}}
+      run: terraform plan -input=false
+      
 
     # - name: Terraform Format
     #   id: fmt
