@@ -3,9 +3,11 @@ name: Terraform staging
 on:
   push:
     branches: [ "main" ]
-    paths: 
-      - "terraform/**"
-  
+
+defaults:
+  run:
+    working-directory: "terraform/"
+
 jobs:
   plan:
     name: Plan
