@@ -26,3 +26,4 @@ resource "null_resource" "random" {
     interpreter = ["PowerShell", "-Command"]
   }
 }
+ 

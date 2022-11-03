@@ -2,28 +2,38 @@ name: Terraform staging
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ "main" ]
-  pull_request:
 
 jobs:
   plan:
     name: Plan
     runs-on: ubuntu-latest
     env:
+      environment: staging
       working-directory: ./terraform
+      ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
     environment: staging
     steps:
-    
+
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Setup Terraform
+    - name: Setup Terraform  
       uses: hashicorp/setup-terraform@v1
 
     - name: Terraform Init
       working-directory: ${{env.working-directory}}
       run: terraform init
+
+    - name: Create Workspace
+      working-directory: ${{env.working-directory}}
+      run: terraform workspace new ${{env.environment}}
+
+    - name: Switch Workspace
+      working-directory: ${{env.working-directory}}
+      run: terraform workspace select ${{env.environment}}
 
     - name: Terraform Validate
       working-directory: ${{env.working-directory}}
