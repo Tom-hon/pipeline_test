@@ -30,6 +30,7 @@ jobs:
     - name: Create Workspace
       working-directory: ${{env.working-directory}}
       run: terraform workspace new ${{env.environment}}
+      if: terraform workspace select ${{env.environment}} != true
 
     - name: Switch Workspace
       working-directory: ${{env.working-directory}}
