@@ -81,6 +81,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       working-directory: ./terraform
+      ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
     environment: staging
     needs: plan
     steps:
@@ -88,7 +92,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Dwonload Artifacts
+    - name: Download Artifacts
       uses: actions/download-artifact@v3
       with:
         name: staging-tfplan
