@@ -44,7 +44,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: staging-tfplan
-        path: ../artifacts/staging-tfplan
+        path: artifacts/staging-tfplan
 
     - name: Update Pull Request
       uses: actions/github-script@v6
@@ -76,22 +76,27 @@ jobs:
             body: output
           })
 
-  deploy:
-    name: Build
-    runs-on: ubuntu-latest
-    env:
-      working-directory: ./terraform
-    environment: staging
-    needs: plan
-    steps:
+  # deploy:
+  #   name: Build
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     working-directory: ./terraform
+  #   environment: staging
+  #   needs: plan
+  #   steps:
 
-    - name: Checkout
-      uses: actions/checkout@v3
+  #   - name: Checkout
+  #     uses: actions/checkout@v3
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+  # - uses: actions/download-artifact@v3
+  #   with:
+  #     name: my-artifact
+  #     path: path/to/artifact
 
-    - name: Terraform Apply
-      if: github.ref == 'refs/heads/main'
-      working-directory: ${{env.working-directory}}
-      run: terraform apply -auto-approve -input=false
+  #   - name: Setup Terraform
+  #     uses: hashicorp/setup-terraform@v1
+
+  #   - name: Terraform Apply
+  #     if: github.ref == 'refs/heads/main'
+  #     working-directory: ${{env.working-directory}}
+  #     run: terraform apply -auto-approve -input=false
