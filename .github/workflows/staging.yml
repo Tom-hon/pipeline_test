@@ -31,18 +31,21 @@ jobs:
       working-directory: ${{env.working-directory}}
       run: terraform workspace select ${{env.environment}} || terraform workspace new ${{env.environment}}
 
-    # - name: Switch Workspace
-    #   working-directory: ${{env.working-directory}}
-    #   run: terraform workspace select ${{env.environment}}
-
     - name: Terraform Validate
       working-directory: ${{env.working-directory}}
       run: terraform validate
 
-    - name: Terraform Plan
+    - name: Terraform Plan 
       id: plan
       working-directory: ${{env.working-directory}}
       run: terraform plan -input=false
+
+    - name: Build Artifact
+      uses: actions/upload-artifact@v3
+      working-directory: ${{env.working-directory}}
+      with:
+        name: staging-tfplan
+        path: artifact/staging-tfplan
 
     - name: Update Pull Request
       uses: actions/github-script@v6
