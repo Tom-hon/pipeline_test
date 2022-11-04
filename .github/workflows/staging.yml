@@ -99,6 +99,12 @@ jobs:
         name: staging-tfplan
         path: artifacts/
 
+    - name: Set-Up Dependnacies
+      run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          brew install --cask powershell
+          brew upgrade powershell --cask
+
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
 
