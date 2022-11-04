@@ -99,4 +99,4 @@ jobs:
     - name: Terraform Apply
       # if: github.ref == 'refs/heads/main'
       working-directory: ${{env.working-directory}}
-      run: terraform apply staging-tfplan -auto-approve -input=false
+      run: terraform apply staging-tfplan
