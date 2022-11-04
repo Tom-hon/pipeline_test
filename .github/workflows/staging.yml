@@ -80,6 +80,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     env:
+      environment: staging
       working-directory: ./terraform
       ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
@@ -104,6 +105,10 @@ jobs:
     - name: Terraform Init
       working-directory: ${{env.working-directory}}
       run: terraform init
+
+    - name: Workspace logic
+      working-directory: ${{env.working-directory}}
+      run: terraform workspace select ${{env.environment}}
 
     - name: Terraform Apply
       # if: github.ref == 'refs/heads/main'
