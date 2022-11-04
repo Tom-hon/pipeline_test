@@ -42,10 +42,9 @@ jobs:
 
     - name: Build Artifact
       uses: actions/upload-artifact@v3
-      working-directory: ${{env.working-directory}}
       with:
         name: staging-tfplan
-        path: artifact/staging-tfplan
+        path: terraform/artifact/staging-tfplan
 
     - name: Update Pull Request
       uses: actions/github-script@v6
