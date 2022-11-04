@@ -94,7 +94,7 @@ jobs:
         name: staging-tfplan
 
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+      uses: hashicorp/setup-terraform@v2
 
     - name: Terraform Apply
       # if: github.ref == 'refs/heads/main'
