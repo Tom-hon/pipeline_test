@@ -102,8 +102,12 @@ jobs:
     - name: Set-Up Dependnacies
       run: |
           /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          sudo apt-get install build-essential
           brew install --cask powershell
-          brew upgrade powershell --cask
+
+    - name: Install PowerShell
+      run: |
+          brew install --cask powershell
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
