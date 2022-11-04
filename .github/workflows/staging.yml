@@ -92,6 +92,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: staging-tfplan
+        path: artifacts/
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
@@ -99,4 +100,4 @@ jobs:
     - name: Terraform Apply
       # if: github.ref == 'refs/heads/main'
       working-directory: ${{env.working-directory}}
-      run: terraform apply ./staging-tfplan
+      run: terraform apply ../artifacts/staging-tfplan
