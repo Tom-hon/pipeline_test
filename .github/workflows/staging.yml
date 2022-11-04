@@ -101,18 +101,11 @@ jobs:
 
     - name: Set-Up Dependnacies
       run: |
-
-          sudo apt-get install build-essential
-          sudo apt-get update
-          sudo apt-get install -y wget apt-transport-https software-properties-common
-          wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb"
-          sudo dpkg -i packages-microsoft-prod.deb
-          sudo apt-get update
-          sudo apt-get install -y powershell
-          # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          # echo '# Set PATH, MANPATH, etc., for Homebrew.' >> /home/runner/.bash_profile
-          # echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/runner/.bash_profile
-          # eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# sudo yum install https://github.com/PowerShell/PowerShell/releases/download/v6.0.0-alpha.12/powershell-6.0.0_alpha.12-1.el7.centos.x86_64.rpm
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          echo '# Set PATH, MANPATH, etc., for Homebrew.' >> /home/runner/.bash_profile
+          echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/runner/.bash_profile
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
     # - name: echo Path
     #   run: |
     #       echo $PATH
