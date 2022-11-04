@@ -103,7 +103,7 @@ jobs:
       run: |
           /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
           sudo apt-get install build-essential
-          sudo export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
+          export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
 
     - name: echo Path
       run: |
