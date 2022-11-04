@@ -103,7 +103,11 @@ jobs:
       run: |
           /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
           sudo apt-get install build-essential
-          export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
+          sudo export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
+
+    - name: echo Path
+      run: |
+          echo $PATH
 
     - name: Install PowerShell
       run: |
