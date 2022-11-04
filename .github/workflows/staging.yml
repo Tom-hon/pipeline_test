@@ -101,19 +101,25 @@ jobs:
 
     - name: Set-Up Dependnacies
       run: |
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          echo '# Set PATH, MANPATH, etc., for Homebrew.' >> /home/runner/.bash_profile
-          echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/runner/.bash_profile
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          sudo apt-get install build-essential
-  
-    - name: echo Path
-      run: |
-          echo $PATH
 
-    - name: Install PowerShell
-      run: |
-          brew install --cask powershell
+          sudo apt-get install build-essential
+          sudo apt-get update
+          sudo apt-get install -y wget apt-transport-https software-properties-common
+          wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb"
+          sudo dpkg -i packages-microsoft-prod.deb
+          sudo apt-get update
+          sudo apt-get install -y powershell
+          # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          # echo '# Set PATH, MANPATH, etc., for Homebrew.' >> /home/runner/.bash_profile
+          # echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/runner/.bash_profile
+          # eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    # - name: echo Path
+    #   run: |
+    #       echo $PATH
+
+    # - name: Install PowerShell
+    #   run: |
+    #       brew install --cask powershell
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
