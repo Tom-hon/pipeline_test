@@ -23,7 +23,6 @@ resource "null_resource" "random" {
 
   provisioner "local-exec" {
     command     = "Get-Date"
-    interpreter = ["PowerShell", "-Command"]
+    interpreter = ["pwsh", "-Command"]
   }
 }
- 

@@ -81,6 +81,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     env:
+      environment: staging
       TF_VAR_the_test: ${{ secrets.THIS_THING }}
       working-directory: ./terraform
       ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
@@ -100,8 +101,23 @@ jobs:
         name: staging-tfplan
         path: artifacts/
 
+    - name: Set-Up Dependnacies
+      run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          echo '# Set PATH, MANPATH, etc., for Homebrew.' >> /home/runner/.bash_profile
+          echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/runner/.bash_profile
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
+
+    - name: Terraform Init
+      working-directory: ${{env.working-directory}}
+      run: terraform init
+
+    - name: Workspace logic
+      working-directory: ${{env.working-directory}}
+      run: terraform workspace select ${{env.environment}}
 
     - name: Terraform Apply
       # if: github.ref == 'refs/heads/main'
