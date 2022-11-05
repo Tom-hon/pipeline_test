@@ -8,6 +8,7 @@ jobs:
     name: Plan
     runs-on: ubuntu-latest
     env:
+      TF_VAR_the_test: ${{ secrets.THIS_THING }}
       environment: staging
       working-directory: ./terraform
       ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
@@ -80,6 +81,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     env:
+      TF_VAR_the_test: ${{ secrets.THIS_THING }}
       working-directory: ./terraform
       ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}

@@ -12,3 +12,12 @@ variable "tags" {
   type    = string
   default = "something"
 }
+
+variable "the_test" {
+  type    = string
+  default = "setmeplease"
+}
+
+output "the_test" {
+  value = var.the_test
+}
