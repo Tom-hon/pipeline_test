@@ -1,0 +1,3 @@
+"ModelFlow","SourceIP","DestinationIP","Port","Protocol","Fulfilled","FulfilledBy"
+"Artifact: ad-client-d1ntp01 -> ad-ds-d1-01:ad-ds-d1-01_ldapudp (SourceToDestination)","10.40.8.13","10.40.8.254","389","UDP","False",""
+"Artifact: ad-client-d1ntp01 -> ad-ds-d1-01:ad-ds-d1-01_ldapudp (SourceToDestination)","10.40.8.13","10.40.10.254","389","UDP","False",""
