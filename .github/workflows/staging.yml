@@ -2,27 +2,35 @@ name: Terraform staging
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ "main" ]
 
 jobs:
   plan:
     name: Plan
     runs-on: ubuntu-latest
     env:
+      TF_VAR_the_test: ${{ secrets.THIS_THING }}
+      environment: staging
       working-directory: ./terraform
+      ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
     environment: staging
     steps:
-    
+
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+    - name: Setup Terraform  
+      uses: hashicorp/setup-terraform@v2
 
     - name: Terraform Init
       working-directory: ${{env.working-directory}}
       run: terraform init
+
+    - name: Workspace logic
+      working-directory: ${{env.working-directory}}
+      run: terraform workspace select ${{env.environment}} || terraform workspace new ${{env.environment}}
 
     - name: Terraform Validate
       working-directory: ${{env.working-directory}}
@@ -31,11 +39,17 @@ jobs:
     - name: Terraform Plan
       id: plan
       working-directory: ${{env.working-directory}}
-      run: terraform plan -input=false
+      run: terraform plan -out ../artifacts/staging-tfplan -input=false
+
+    - name: Build Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: staging-tfplan
+        path: artifacts/staging-tfplan
 
     - name: Update Pull Request
       uses: actions/github-script@v6
-      # if: github.event_name == 'pull_request'
+      if: github.event_name == 'pull_request'
       env:
         PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
       with:
@@ -67,7 +81,13 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     env:
+      environment: staging
+      TF_VAR_the_test: ${{ secrets.THIS_THING }}
       working-directory: ./terraform
+      ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
     environment: staging
     needs: plan
     steps:
@@ -75,10 +95,31 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Download Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: staging-tfplan
+        path: artifacts/
+
+    - name: Set-Up Dependnacies
+      run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          echo '# Set PATH, MANPATH, etc., for Homebrew.' >> /home/runner/.bash_profile
+          echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/runner/.bash_profile
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+      uses: hashicorp/setup-terraform@v2
+
+    - name: Terraform Init
+      working-directory: ${{env.working-directory}}
+      run: terraform init
+
+    - name: Workspace logic
+      working-directory: ${{env.working-directory}}
+      run: terraform workspace select ${{env.environment}}
 
     - name: Terraform Apply
-      if: github.ref == 'refs/heads/main'
+      # if: github.ref == 'refs/heads/main'
       working-directory: ${{env.working-directory}}
-      run: terraform apply -auto-approve -input=false
+      run: terraform apply ../artifacts/staging-tfplan
